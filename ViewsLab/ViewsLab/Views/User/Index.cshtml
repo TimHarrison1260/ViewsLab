@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Users</h2>
+
+@*TODO: complete this view*@
+<div id="userGrid">
+    @*  This renders the UserGrid in the page by calling the userGrid method in the UserController *@
+    @Html.Action("UserGrid", new { pageSize=ViewBag.pageSize, page=ViewBag.page, sort=ViewBag.sort })
+</div>
+<script>
+    $(document).ready(function () {
+        /*
+        *   This function handles a click event of an <a> tag within the
+        *   <div> tag whose Id is 'userGrid'.  This has the effect of
+        *   responding to a click within the WebGrid.
+        */
+        $("#userGrid a").live('click', function (event) {
+
+            /*  
+            *   Check if the controller action "UserDetail" was included in the request
+            *   This would mean that a Username link has been clicked instead of a page
+            *   number at the bottom of the WebGrid
+            */
+            var wasTitleClicked = ($(event.target).attr("href").indexOf("UserDetail") >= 0 ? true : false)
+            if (!wasTitleClicked) {
+
+                event.preventDefault();
+                var href = $(this).attr("href");
+                var queryString = href.substring(href.indexOf('?'), href.length);
+                var requestUrl = '@Url.Action("UserGrid","User")' + queryString;
+                /*  
+                *   Replace whatever is in the userGrid <div> tag with the response 
+                *   jQuery Ajax load call to the requestUrl.  This represents a 
+                *   async call to the 'UserGrid' method in the UserController.
+                */
+                $("#userGrid").load(requestUrl);
+
+            }
+
+        });
+    });
+</script>

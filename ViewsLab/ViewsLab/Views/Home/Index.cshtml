@@ -1,0 +1,22 @@
+﻿@using ViewsLab.Helpers;
+@{
+    ViewBag.Title = "Index";
+    string url = ViewBag.Url;
+    string alt = ViewBag.Alt;
+    int idValue = ViewBag.Id;
+}
+<h2>Image Link example</h2>
+
+<p>Click on the image to go to details page</p>
+
+<div>
+    <p>The native HTML version, that the <strong>ImageLinkHelper</strong> is to emulate.</p>
+    <a href='@Url.Action("Details", new { id = @ViewBag.Id })'><img src="@ViewBag.Url" alt="@ViewBag.Alt" style="border-width:5px; border-style: solid; border-color: red" /></a>
+    <p>The Full ImageLink helper: <strong>OK</strong>: (ActionName, ImageUrl, AlternateText, RouteValues, LinkHtmlAttributes, ImageHtmlAttributes)</p>
+    @Html.ImageLink("Details",url, alt, new {id = idValue}, null, new { @style="border-width:5px; border-style: solid; border-color: red" })
+    <p>First override <strong>Link fails when clicked as routeValue not available</strong> (ActionName, ImageUrl, AlternateText)</p>
+    @Html.ImageLink("Deatils", url, alt);
+    <p>Second override: <strong>OK, but no red border, default border used</strong> (ActionName, ImageUrl, AlternateText, RouteValues)</p>
+    @Html.ImageLink("Details", url, alt, new {id = idValue})
+
+</div>

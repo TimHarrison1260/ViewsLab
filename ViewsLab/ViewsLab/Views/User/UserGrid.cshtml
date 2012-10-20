@@ -1,0 +1,16 @@
+﻿@model ViewsLab.Models.UserGridModel
+
+@*TODO: complete this view*@
+@{
+    WebGrid userGrid = new WebGrid(rowsPerPage: Model.PageSize);
+    userGrid.Bind(Model.Users, autoSortAndPage: false, rowCount: Model.RowCount);
+    userGrid.PageIndex = Model.CurrentPage;    
+}
+@userGrid.GetHtml(columns: new WebGridColumn[] 
+{
+    @*  Add the format: attribute to the userGrid.Column.  We include an Html.ActionLink to provide a 
+    correctly resolved url fo the link.  UserDetail method of UserController. *@
+    userGrid.Column("username", "Username", format: @<text>@Html.ActionLink((string)item.username, "UserDetail", "User", new {username=item.username},null)</text>),
+    userGrid.Column("firstname", "First Name"),
+    userGrid.Column("lastname", "Last Name")
+})
